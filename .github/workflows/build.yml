@@ -7,9 +7,12 @@ on:
 
 jobs:
   build-mac:
+    
     runs-on: macos-latest
 
     steps:
+      - name: Enable pnpm
+        run: corepack enable
       - name: Checkout repo
         uses: actions/checkout@v4
 
@@ -19,10 +22,10 @@ jobs:
           node-version: 20
 
       - name: Install deps
-        run: npm install
+        run: pnpm install
 
       - name: Build macOS app
-        run: npm run dist
+        run: pnpm run dist
 
       - name: Upload artifact (mac)
         uses: actions/upload-artifact@v4
@@ -43,10 +46,10 @@ jobs:
           node-version: 20
 
       - name: Install deps
-        run: npm install
+        run: pnpm install
 
       - name: Build Windows app
-        run: npm run dist -- --win
+        run: pnpm run dist --win
 
       - name: Upload artifact (win)
         uses: actions/upload-artifact@v4
