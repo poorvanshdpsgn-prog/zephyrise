@@ -4,7 +4,6 @@
   "description": "Zephyrise - Custom Electron Browser",
   "main": "main.js",
   "author": "Poorvansh Sahni",
-
   "productName": "Zephyrise",
 
   "scripts": {
@@ -15,8 +14,17 @@
   "build": {
     "appId": "com.zephyrise.app",
     "productName": "Zephyrise",
+
     "mac": {
+      "target": [
+      "dmg"
+    ],
+      "icon": "assets/icon.icns",
       "category": "public.app-category.productivity"
+    },
+
+    "win": {
+      "icon": "assets/icon.ico"
     }
   },
 

@@ -1,0 +1,182 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+.window-controls{
+    display:flex;
+    gap:8px;
+    margin-right:10px;
+
+    -webkit-app-region: no-drag;
+}
+
+.window-controls button{
+    width:12px;
+    height:12px;
+    border-radius:50%;
+    border:none;
+    cursor:pointer;
+    padding:0;
+}
+
+/* Zephyr colors */
+.close{ background:#ff5f57; }
+.min{ background:#febc2e; }
+.max{ background:#28c840; }
+
+.window-controls button:hover{
+    filter:brightness(1.1);
+    transform:scale(1.05);
+}
+
+body{
+    font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+    background:#0b0d10;
+    overflow:hidden;
+}
+.logo{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    font-weight:700;
+
+    font-size:15px;
+
+    color:white;
+
+    margin-right:8px;
+
+}
+
+.logo span{
+
+    letter-spacing:.4px;
+
+}
+
+/* Floating navigation */
+
+.navbar{
+    position: fixed;
+
+    top: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: calc(100% - 24px);
+
+    height: 64px;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 0 18px;
+    padding-left: 90px; /* 👈 IMPORTANT FIX */
+
+    border-radius: 20px;
+
+    background: rgba(28,30,35,.55);
+    backdrop-filter: blur(20px);
+
+    -webkit-backdrop-filter: blur(20px);
+
+    border: 1px solid rgba(255,255,255,.08);
+
+    box-shadow: 0 8px 40px rgba(0,0,0,.35);
+
+    z-index: 1000;
+
+    -webkit-app-region: drag;
+}
+button{
+
+    width:42px;
+
+    height:42px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:rgba(255,255,255,.08);
+
+    color:white;
+
+    cursor:pointer;
+
+    transition:.18s;
+}
+
+button:hover{
+
+    background:rgba(255,255,255,.16);
+
+    transform:translateY(-1px);
+
+}
+
+button:active{
+
+    transform:scale(.95);
+
+}
+
+input{
+
+    flex:1;
+
+    height:44px;
+
+    border:none;
+
+    outline:none;
+
+    border-radius:14px;
+
+    padding:0 18px;
+
+    font-size:15px;
+
+    color:white;
+
+    background:rgba(255,255,255,.08);
+
+}
+
+input::placeholder{
+
+    color:#bfc6cf;
+
+}
+
+webview{
+
+    margin-top:90px;
+
+    width:100%;
+
+    height:calc(100vh - 90px);
+
+}
+*{
+
+    transition:
+        background .18s,
+        color .18s,
+        border-color .18s,
+        box-shadow .18s;
+
+}
+button,
+input{
+    -webkit-app-region: no-drag;
+}
+.logo{
+    margin-left:80px;
+}

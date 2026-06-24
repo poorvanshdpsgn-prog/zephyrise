@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Zephyrise</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: system-ui;
+  background: #0f1115;
+  color: white;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+#newTab {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  font-size: 18px;
+  line-height: 0;
+}
+/* TABS */
+.tabs {
+  display: flex;
+  gap: 6px;
+  padding: 6px;
+  background: rgba(0,0,0,0.25);
+  overflow-x: auto;
+  flex-shrink: 0;
+}
+
+.tab {
+  padding: 6px 12px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.05);
+  cursor: pointer;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.tab.active {
+  background: rgba(80,120,255,0.4);
+}
+
+.tab button {
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+/* NEW TAB */
+#newTab {
+  margin: 6px;
+  background: rgba(255,255,255,0.05);
+  border: none;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* NAVBAR */
+.navbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background: rgba(20,20,25,0.65);
+  flex-shrink: 0;
+}
+
+/* traffic lights */
+.traffic {
+  display: flex;
+  gap: 6px;
+}
+
+.traffic button {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+}
+
+.traffic button:nth-child(1){ background:#ff5f57; }
+.traffic button:nth-child(2){ background:#febc2e; }
+.traffic button:nth-child(3){ background:#28c840; }
+
+.controls button {
+  background: rgba(255,255,255,0.05);
+  border: none;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+
+input {
+  flex: 1;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: none;
+  background: rgba(255,255,255,0.08);
+  color: white;
+  outline: none;
+}
+
+/* WEBVIEW AREA */
+#webview {
+  flex: 1;
+  width: 100%;
+}
+</style>
+</head>
+
+<body>
+
+<!-- TABS -->
+<div class="tabs" id="tabs"></div>
+<button id="newTab">＋</button>
+
+<!-- NAVBAR -->
+<div class="navbar">
+
+  <div class="traffic">
+    <button id="close"></button>
+    <button id="min"></button>
+    <button id="max"></button>
+  </div>
+
+  <div class="controls">
+    <button id="back">←</button>
+    <button id="forward">→</button>
+    <button id="reload">⟳</button>
+  </div>
+
+  <input id="url" placeholder="Search or URL" />
+  <button id="go">Go</button>
+</div>
+
+<!-- SINGLE WEBVIEW ONLY -->
+<webview id="webview" src="https://google.com"></webview>
+
+<script src="app.js"></script>
+
+</body>
+</html>
