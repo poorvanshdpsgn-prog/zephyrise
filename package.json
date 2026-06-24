@@ -1,18 +1,29 @@
 {
   "name": "zephyrise",
-  "private": true,
-  "version": "0.0.1",
-  "packageManager": "pnpm@9.0.0",
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
+  "version": "1.0.0",
+  "description": "Zephyrise - Custom Electron Browser",
+  "main": "main.js",
+  "author": "Poorvansh Sahni",
+
+  "productName": "Zephyrise",
+
   "scripts": {
-    "dev": "echo \"No app yet\"",
-    "build": "echo \"No build yet\"",
-    "lint": "echo \"No lint yet\""
+    "dev": "npx electron .",
+    "dist": "electron-builder"
   },
-  "dependencies": {
-    "electron": "^42.4.1"
+
+  "build": {
+    "appId": "com.zephyrise.app",
+    "productName": "Zephyrise",
+    "mac": {
+      "category": "public.app-category.productivity"
+    }
+  },
+
+  "dependencies": {},
+
+  "devDependencies": {
+    "electron": "42.4.1",
+    "electron-builder": "^26.15.3"
   }
 }
