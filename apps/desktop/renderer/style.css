@@ -180,3 +180,40 @@ input{
 .logo{
     margin-left:80px;
 }
+/* Tab layout */
+.tab {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    min-width: 0;
+    max-width: 280px;
+    height: 44px;
+    padding: 0 12px;
+
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+/* Prevent long page titles from wrapping */
+.tab span {
+    display: block;
+    flex: 1;
+    min-width: 0;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+/* Keep the close button visible */
+.tab button {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

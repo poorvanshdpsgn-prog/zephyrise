@@ -1,105 +1,107 @@
-const { ipcRenderer } = require("electron");
+window.addEventListener("DOMContentLoaded", async () => {
+  const api = window.zephyrise;
 
-window.addEventListener("DOMContentLoaded", () => {
+  const tabsContainer = document.getElementById("tabs");
+  const urlInput = document.getElementById("url");
 
-const tabsContainer = document.getElementById("tabs");
-const webview = document.getElementById("webview");
-const urlInput = document.getElementById("url");
+  const newTabBtn = document.getElementById("newTab");
 
-const newTabBtn = document.getElementById("newTab");
+  const min = document.getElementById("min");
+  const max = document.getElementById("max");
+  const close = document.getElementById("close");
 
-const min = document.getElementById("min");
-const max = document.getElementById("max");
-const close = document.getElementById("close");
+  const go = document.getElementById("go");
+  const back = document.getElementById("back");
+  const forward = document.getElementById("forward");
+  const reload = document.getElementById("reload");
 
-let tabs = [];
-let activeTab = null;
+  let tabs = [];
+  let activeTabId = null;
 
-/* TRAFFIC */
-min.onclick = () => ipcRenderer.send("win:minimize");
-max.onclick = () => ipcRenderer.send("win:maximize");
-close.onclick = () => ipcRenderer.send("win:close");
+  // Window controls
+  min.onclick = () => api.minimize();
+  max.onclick = () => api.maximize();
+  close.onclick = () => api.closeWindow();
 
-/* CREATE TAB (JUST URL STATE) */
-function createTab(url="https://google.com") {
-  const tab = { id: Date.now(), url };
-  tabs.push(tab);
-  switchTab(tab.id);
-  renderTabs();
-}
-
-/* SWITCH TAB (ONLY CHANGE URL) */
-function switchTab(id) {
-  activeTab = id;
-  const tab = tabs.find(t => t.id === id);
-  if (!tab) return;
-
-  webview.src = tab.url;
-  urlInput.value = tab.url;
-
-  renderTabs();
-}
-
-/* RENDER TABS */
-function renderTabs() {
-  tabsContainer.innerHTML = "";
-
-  tabs.forEach(tab => {
-    const div = document.createElement("div");
-    div.className = "tab" + (tab.id === activeTab ? " active" : "");
-
-    div.innerHTML = `
-      <span>${new URL(tab.url).hostname}</span>
-      <button>x</button>
-    `;
-
-    div.onclick = () => switchTab(tab.id);
-
-    div.querySelector("button").onclick = (e) => {
-      e.stopPropagation();
-
-      tabs = tabs.filter(t => t.id !== tab.id);
-
-      if (tabs.length === 0) {
-        createTab();
-      } else {
-        switchTab(tabs[0].id);
-      }
-
-      renderTabs();
-    };
-
-    tabsContainer.appendChild(div);
+  // Mac keyboard shortcut: Command + L
+  api.onFocusAddress(() => {
+    urlInput.focus();
+    urlInput.select();
   });
-}
 
-/* NAVIGATION */
-function navigate() {
-  let text = urlInput.value.trim();
-  if (!text) return;
+  // Render browser tabs
+  function renderTabs() {
+    tabsContainer.replaceChildren();
 
-  if (text.includes(".") && !text.includes(" ")) {
-    if (!text.startsWith("http")) text = "https://" + text;
-  } else {
-    text = "https://google.com/search?q=" + encodeURIComponent(text);
+    tabs.forEach(tab => {
+      const element = document.createElement("div");
+      element.className =
+        "tab" + (tab.active ? " active" : "");
+
+      const title = document.createElement("span");
+      title.textContent = tab.title || tab.url || "New tab";
+
+      const closeButton = document.createElement("button");
+      closeButton.textContent = "×";
+      closeButton.setAttribute("aria-label", "Close tab");
+
+      element.onclick = () => api.switchTab(tab.id);
+
+      closeButton.onclick = event => {
+        event.stopPropagation();
+        api.closeTab(tab.id);
+      };
+
+      element.append(title, closeButton);
+      tabsContainer.appendChild(element);
+    });
   }
 
-  const tab = tabs.find(t => t.id === activeTab);
-  tab.url = text;
+  // Synchronize UI with the main process
+  function updateTabs(updatedTabs) {
+    tabs = updatedTabs;
 
-  webview.src = text;
-  renderTabs();
-}
+    const activeTab = tabs.find(tab => tab.active);
 
-/* EVENTS */
-newTabBtn.onclick = () => createTab();
-document.getElementById("go").onclick = navigate;
+    activeTabId = activeTab?.id ?? null;
 
-document.getElementById("back").onclick = () => webview.goBack();
-document.getElementById("forward").onclick = () => webview.goForward();
-document.getElementById("reload").onclick = () => webview.reload();
+    if (activeTab) {
+      urlInput.value = activeTab.url || "";
+    }
 
-/* INIT */
-createTab();
+    renderTabs();
+  }
 
+  api.onTabsUpdated(updateTabs);
+
+  // Navigation
+  async function navigate() {
+    const text = urlInput.value.trim();
+
+    if (!text) return;
+
+    await api.navigate(text);
+  }
+
+  go.onclick = navigate;
+
+  urlInput.addEventListener("keydown", event => {
+    if (event.key === "Enter") {
+      navigate();
+    }
+  });
+
+  back.onclick = () => api.back();
+  forward.onclick = () => api.forward();
+  reload.onclick = () => api.reload();
+
+  // Create tabs
+  newTabBtn.onclick = () => api.createTab();
+
+  // Initial synchronization
+  updateTabs(await api.getTabs());
+
+  if (activeTabId === null) {
+    await api.createTab();
+  }
 });

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Zephyrise — New Tab</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background:
+        radial-gradient(
+          ellipse at 50% 35%,
+          rgba(0, 220, 255, 0.09),
+          transparent 45%
+        ),
+        #090c11;
+
+      color: #eafaff;
+      font-family: system-ui, sans-serif;
+    }
+
+    .home {
+      width: min(680px, 90%);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo {
+      font-size: clamp(38px, 6vw, 64px);
+      font-weight: 750;
+      letter-spacing: 8px;
+      margin-bottom: 12px;
+
+      color: #f1fcff;
+
+      text-shadow:
+        0 0 25px rgba(0, 220, 255, 0.24);
+    }
+
+    .subtitle {
+      color: #8295a6;
+      font-size: 14px;
+      letter-spacing: 3px;
+      margin-bottom: 42px;
+    }
+
+    .clock {
+      font-size: 24px;
+      font-weight: 500;
+      color: #b9c9d7;
+      margin-bottom: 28px;
+    }
+
+    .search {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 10px 8px 20px;
+
+      background: rgba(22, 28, 36, 0.92);
+      border: 1px solid rgba(0, 220, 255, 0.2);
+      border-radius: 18px;
+
+      box-shadow:
+        0 0 35px rgba(0, 220, 255, 0.04);
+
+      transition:
+        border-color 180ms ease,
+        box-shadow 180ms ease;
+    }
+
+    .search:focus-within {
+      border-color: rgba(0, 220, 255, 0.7);
+
+      box-shadow:
+        0 0 0 4px rgba(0, 220, 255, 0.06),
+        0 0 35px rgba(0, 220, 255, 0.08);
+    }
+
+    .search input {
+      flex: 1;
+      min-width: 0;
+      padding: 12px 0;
+
+      background: transparent;
+      border: none;
+      outline: none;
+
+      color: #f1fcff;
+      font-size: 15px;
+      font-family: inherit;
+    }
+
+    .search input::placeholder {
+      color: #758596;
+    }
+
+    .search button {
+      padding: 11px 18px;
+      border: none;
+      border-radius: 11px;
+
+      background: #12303a;
+      color: #8ceeff;
+
+      font-family: inherit;
+      font-weight: 650;
+      cursor: pointer;
+
+      transition: background 180ms ease;
+    }
+
+    .search button:hover {
+      background: #194653;
+    }
+
+    .links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 32px;
+    }
+
+    .link {
+      min-width: 100px;
+      padding: 15px 18px;
+
+      color: #c5d3df;
+      text-decoration: none;
+      font-size: 13px;
+
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 14px;
+
+      transition:
+        background 180ms ease,
+        border-color 180ms ease,
+        transform 180ms ease;
+    }
+
+    .link:hover {
+      background: rgba(0, 220, 255, 0.06);
+      border-color: rgba(0, 220, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .footer {
+      margin-top: 52px;
+      color: #526271;
+      font-size: 11px;
+      letter-spacing: 2px;
+    }
+
+    /* Subtle atmospheric background particles */
+    .orb {
+      position: fixed;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: rgba(0, 220, 255, 0.035);
+      filter: blur(65px);
+      pointer-events: none;
+      animation: drift 12s ease-in-out infinite alternate;
+    }
+
+    .orb.one {
+      top: 5%;
+      left: 5%;
+    }
+
+    .orb.two {
+      right: 5%;
+      bottom: 5%;
+      animation-delay: -6s;
+    }
+
+    @keyframes drift {
+      from {
+        transform: translate(0, 0);
+      }
+
+      to {
+        transform: translate(35px, -25px);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="orb one"></div>
+  <div class="orb two"></div>
+
+  <main class="home">
+    <div class="logo">ZEPHYRISE</div>
+
+    <div class="subtitle">YOUR SPACE. YOUR WEB.</div>
+
+    <div class="clock" id="clock">00:00</div>
+
+    <form class="search" id="searchForm">
+      <input
+        id="searchInput"
+        type="text"
+        placeholder="Search the web or enter a URL..."
+        autocomplete="off"
+        autofocus
+      >
+
+      <button type="submit">Explore ↗</button>
+    </form>
+
+    <nav class="links" aria-label="Quick links">
+      <a class="link" href="https://www.google.com">Google ↗</a>
+      <a class="link" href="https://www.youtube.com">YouTube ↗</a>
+      <a class="link" href="https://github.com">GitHub ↗</a>
+      <a class="link" href="https://www.wikipedia.org">Wikipedia ↗</a>
+    </nav>
+
+    <div class="footer">EXPLORE WITHOUT LIMITS</div>
+  </main>
+
+  <script>
+    const clock = document.getElementById("clock");
+
+    function updateClock() {
+      clock.textContent = new Intl.DateTimeFormat(undefined, {
+        hour: "2-digit",
+        minute: "2-digit"
+      }).format(new Date());
+    }
+
+    updateClock();
+    setInterval(updateClock, 15000);
+
+    /*
+      Navigation will be connected to Zephyrise's
+      main-process navigation API in the next step.
+    */
+    document.getElementById("searchForm").addEventListener(
+      "submit",
+      event => {
+        event.preventDefault();
+
+        const query = document
+          .getElementById("searchInput")
+          .value.trim();
+
+        if (!query) return;
+
+        const looksLikeUrl =
+          /^(https?:\/\/)/i.test(query) ||
+          (/^[\w-]+(\.[\w-]+)+([/:?#].*)?$/i.test(query) &&
+            !/\s/.test(query));
+
+        const destination = looksLikeUrl
+          ? (/^https?:\/\//i.test(query)
+              ? query
+              : "https://" + query)
+          : "https://www.google.com/search?q=" +
+            encodeURIComponent(query);
+
+        window.location.href = destination;
+      }
+    );
+  </script>
+</body>
+</html>

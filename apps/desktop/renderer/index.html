@@ -25,22 +25,54 @@ body {
 /* TABS */
 .tabs {
   display: flex;
-  gap: 6px;
-  padding: 6px;
-  background: rgba(0,0,0,0.25);
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  height: 44px;
+  box-sizing: border-box;
+  background: #0b0e12;
   overflow-x: auto;
+  overflow-y: hidden;
   flex-shrink: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .tab {
-  padding: 6px 12px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  min-width: 90px;
+  max-width: 220px;
   border-radius: 10px;
-  background: rgba(255,255,255,0.05);
+  background: #15191f;
+  color: #aab4c3;
   cursor: pointer;
   font-size: 13px;
-  display: flex;
-  gap: 8px;
-  align-items: center;
+  transition: background 160ms ease, color 160ms ease;
+}
+
+.tab:hover {
+  background: #202731;
+  color: #ffffff;
+}
+
+.tab.active {
+  background: #172a33;
+  color: #e8fcff;
+  box-shadow: inset 0 0 0 1px rgba(0, 220, 255, 0.22);
+}
+
+.tab.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 20%;
+  right: 20%;
+  height: 2px;
+  border-radius: 2px;
+  background: #00dcff;
 }
 
 .tab.active {
@@ -56,13 +88,23 @@ body {
 
 /* NEW TAB */
 #newTab {
-  margin: 6px;
-  background: rgba(255,255,255,0.05);
-  border: none;
-  color: white;
-  padding: 6px 10px;
-  border-radius: 8px;
+  width: 30px;
+  height: 30px;
+  margin: 0;
+  padding: 0;
+  flex-shrink: 0;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  background: transparent;
+  color: #aab4c3;
+  font-size: 20px;
   cursor: pointer;
+  transition: background 160ms ease, color 160ms ease;
+}
+
+#newTab:hover {
+  background: #202731;
+  color: #00dcff;
 }
 
 /* NAVBAR */
@@ -70,8 +112,11 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 10px;
-  background: rgba(20,20,25,0.65);
+  padding: 10px 14px;
+  min-height: 58px;
+  box-sizing: border-box;
+  background: #0b0e12;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   flex-shrink: 0;
 }
 
@@ -92,22 +137,66 @@ body {
 .traffic button:nth-child(2){ background:#febc2e; }
 .traffic button:nth-child(3){ background:#28c840; }
 
-.controls button {
-  background: rgba(255,255,255,0.05);
-  border: none;
-  color: white;
-  padding: 6px 10px;
-  border-radius: 8px;
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
+.controls button {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: #171b21;
+  color: #b9c4d2;
+  font-size: 17px;
+  cursor: pointer;
+  transition:
+    background 160ms ease,
+    color 160ms ease,
+    border-color 160ms ease;
+}
+
+.controls button:hover {
+  background: #222a33;
+  color: #00dcff;
+  border-color: rgba(0, 220, 255, 0.16);
+}
+
+.controls button:active {
+  background: #263640;
+}
 input {
   flex: 1;
-  padding: 8px 10px;
-  border-radius: 10px;
-  border: none;
-  background: rgba(255,255,255,0.08);
-  color: white;
+  min-width: 0;
+  padding: 11px 15px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: #171b21;
+  color: #e8edf5;
+  font-family: inherit;
+  font-size: 13px;
   outline: none;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease,
+    box-shadow 160ms ease;
+}
+
+input:hover {
+  background: #1b2028;
+}
+
+input:focus {
+  border-color: rgba(0, 220, 255, 0.65);
+  background: #151b22;
+  box-shadow: 0 0 0 3px rgba(0, 220, 255, 0.08);
+}
+
+input::placeholder {
+  color: #778392;
 }
 
 /* WEBVIEW AREA */
@@ -115,14 +204,84 @@ input {
   flex: 1;
   width: 100%;
 }
+.tabs-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-right: 10px;
+  background: #0b0e12;
+  flex-shrink: 0;
+}
+
+.tabs-wrapper .tabs {
+  flex: 1;
+  min-width: 0;
+}
+#go {
+  padding: 10px 16px;
+  border: 1px solid rgba(0, 220, 255, 0.22);
+  border-radius: 10px;
+  background: #13252d;
+  color: #8ceeff;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 160ms ease, color 160ms ease;
+}
+
+#go:hover {
+  background: #183742;
+  color: #ffffff;
+}
+/* Tab layout */
+.tab {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    min-width: 0;
+    max-width: 280px;
+    height: 44px;
+    padding: 0 12px;
+
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+/* Prevent long page titles from wrapping */
+.tab span {
+    display: block;
+    flex: 1;
+    min-width: 0;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+/* Keep the close button visible */
+.tab button {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 </style>
 </head>
 
 <body>
 
 <!-- TABS -->
-<div class="tabs" id="tabs"></div>
-<button id="newTab">＋</button>
+<!-- TABS -->
+<div class="tabs-wrapper">
+  <div class="tabs" id="tabs"></div>
+  <button id="newTab" title="New tab">＋</button>
+</div>
 
 <!-- NAVBAR -->
 <div class="navbar">
